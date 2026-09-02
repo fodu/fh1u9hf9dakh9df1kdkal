@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Ordem</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+  background: url('img/bliss.png') center center / cover no-repeat;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  overflow: hidden;
+  cursor: url('img/cursor.png') 2 2, auto;
+}
+
+  a, .icon, .xp-btn, .xp-titlebar {
+    cursor: url('img/cursor.cur') 2 2, pointer;
+  }
+
+  /* ---------- ÍCONES DA ÁREA DE TRABALHO ---------- */
+  .desktop {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 25px;
+    height: calc(100vh - 60px);
+  }
+
+  .icon {
+    width: 80px;
+    text-align: center;
+    color: white;
+    font-size: 11px;
+    text-shadow: 1px 1px 2px black;
+    user-select: none;
+  }
+
+  .icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.4);
+    display: block;
+    margin: 0 auto 4px;
+  }
+
+  /* ---------- CARD / JANELA XP ---------- */
+  .xp-window {
+    width: 220px;
+    background: #ECE9D8;
+    border: 1px solid #0A246A;
+    border-radius: 8px 8px 3px 3px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: absolute;
+    top: 120px;
+    left: 140px;
+    display: none;
+  }
+
+  .xp-titlebar {
+    background: linear-gradient(180deg, #3A6EA5 0%, #2A5490 5%, #1A4A8A 45%, #1A4A8A 50%, #0F3D82 95%, #0A3475 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 4px 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 7px 7px 0 0;
+    cursor: move;
+  }
+
+  .xp-titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .xp-icon {
+    width: 14px;
+    height: 14px;
+    background: #FFD700;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .xp-buttons {
+    display: flex;
+    gap: 2px;
+  }
+
+  .xp-btn {
+    width: 18px;
+    height: 16px;
+    background: linear-gradient(180deg, #E8722E 0%, #D65D1F 100%);
+    border: 1px solid #A34A18;
+    border-radius: 3px;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .xp-btn.min, .xp-btn.max {
+    background: linear-gradient(180deg, #4A9BD9 0%, #2E7CC0 100%);
+    border-color: #1A5B99;
+  }
+
+  .xp-body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .xp-imgholder {
+    width: 130px;
+    height: 130px;
+    background: #FFFFFF;
+    border: 2px inset #ACA899;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .xp-imgholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .xp-name {
+    background: #FFFFE1;
+    border: 1px solid #000000;
+    padding: 3px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  }
+
+  .xp-statusbar {
+    background: #ECE9D8;
+    border-top: 1px solid #ACA899;
+    font-size: 10px;
+    color: #444;
+    padding: 2px 8px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="desktop">
+    <div class="icon" onclick="abrirCard('flora')">
+      <img src="img/florapfp.png">
+      flora
+    </div>
+
+    <div class="icon" onclick="abrirCard('kernel')">
+      <img src="img/kernelpfp.jpg">
+      kernel
+    </div>
+
+    <div class="icon" onclick="abrirCard('pandora')">
+      <img src="img/pandoranewpfp.jpg">
+      pandora
+    </div>
+
+    <div class="icon" onclick="abrirCard('xss')">
+      <img src="img/xsspfp.png">
+      xss
+    </div>
+
+    <div class="icon" onclick="abrirCard('twxy')">
+      <img src="img/twxypfp.png">
+      twxy
+    </div>
+
+    <div class="icon" onclick="abrirCard('soul')">
+      <img src="img/soulpfp.png">
+      soul
+    </div>
+  </div>
+
+  <div class="icon">
+      <a href="https://discord.gg/wcgBuGhk6S"><img class="shortcut" src="favicon.png"><img class="icon " src="favicon.png"></a><br />
+      <img src="img/soulpfp.png">
+      soul
+    </div>
+  </div>
+
+  <!-- Card único, reaproveitado pra qualquer membro -->
+  <div id="card-generico" class="xp-window">
+    <div class="xp-titlebar" onmousedown="iniciarArraste(event)">
+      <div class="xp-titlebar-left">
+        <span class="xp-icon"></span>
+        <span id="titulo-card">perfil.jpg</span>
+      </div>
+      <div class="xp-buttons">
+        <div class="xp-btn min">_</div>
+        <div class="xp-btn max">□</div>
+        <div class="xp-btn" onclick="fecharCard()">×</div>
+      </div>
+    </div>
+
+    <div class="xp-body">
+      <div class="xp-imgholder">
+        <img id="foto-card" src="" alt="">
+      </div>
+      <div class="xp-name" id="nome-card">nome</div>
+    </div>
+
+    <div class="xp-statusbar">Membro da Ordem</div>
+  </div>
+
+  <script>
+    const membros = {
+      flora:   { nome: "flora",   foto: "img/florapfp.png" },
+      kernel:  { nome: "kernel",  foto: "img/kernelpfp.jpg" },
+      pandora: { nome: "pandora", foto: "img/pandoranewpfp.jpg" },
+      xss:     { nome: "xss",     foto: "img/xsspfp.png" },
+      twxy:    { nome: "twxy",    foto: "img/twxypfp.png" },
+      soul:    { nome: "soul",    foto: "img/soulpfp.png" }
+    };
+
+    function abrirCard(id) {
+      const m = membros[id];
+      if (!m) return;
+      document.getElementById('nome-card').textContent = m.nome;
+      document.getElementById('foto-card').src = m.foto;
+      document.getElementById('foto-card').alt = m.nome;
+      document.getElementById('titulo-card').textContent = m.nome;
+      document.getElementById('card-generico').style.display = 'block';
+    }
+
+    function fecharCard() {
+      document.getElementById('card-generico').style.display = 'none';
+    }
+
+    // arrastar a janela pela barra de título, igual XP de verdade
+    let arrastando = false, offsetX = 0, offsetY = 0;
+    const janela = document.getElementById('card-generico');
+
+    function iniciarArraste(e) {
+      arrastando = true;
+      offsetX = e.clientX - janela.offsetLeft;
+      offsetY = e.clientY - janela.offsetTop;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      if (!arrastando) return;
+      janela.style.left = (e.clientX - offsetX) + 'px';
+      janela.style.top = (e.clientY - offsetY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => arrastando = false);
+  </script>
+
+</body>
+</html>
